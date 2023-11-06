@@ -1,3 +1,9 @@
-# google_login
+# Flutter supabase auth with ddd
 
-A new Flutter project.
+## Getting Started
+
+edit main_local.dart, url and anonKey
+
+```dart
+await Supabase.initialize(url: "", anonKey: "", authFlowType: AuthFlowType.pkce);
+```
