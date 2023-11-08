@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_login/features/common/presentation/widgets/password_input_widget.dart';
 import 'package:google_login/main_local.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -15,6 +16,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool _loading = false;
 
   late final StreamSubscription<AuthState> _authSubscription;
 
@@ -51,34 +53,49 @@ class _LoginPageState extends State<LoginPage> {
             decoration: const InputDecoration(label: Text("Email")),
           ),
           const SizedBox(height: 12),
-          TextFormField(
-            controller: _passwordController,
-            decoration: const InputDecoration(label: Text("Password")),
-          ),
+          PasswordInputWidget(
+              labelText: 'Contraseña', controller: _passwordController),
           const SizedBox(height: 12),
           ElevatedButton(
-              onPressed: () async {
-                try {
-                  final email = _emailController.text.trim();
-                  final password = _passwordController.text.trim();
-                  await supabase.auth
-                      .signInWithPassword(password: password, email: email);
-                  if (mounted) {
-                    GoRouter.of(context).go('/home');
-                  }
-                } on AuthException catch (error) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(error.message),
-                    backgroundColor: Theme.of(context).colorScheme.error,
-                  ));
-                } catch (error) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: const Text('Error logging in, please try again!'),
-                    backgroundColor: Theme.of(context).colorScheme.error,
-                  ));
-                }
-              },
-              child: const Text("Login")),
+              onPressed: _loading
+                  ? null
+                  : () async {
+                      try {
+                        setState(() {
+                          _loading = true;
+                        });
+                        final email = _emailController.text.trim();
+                        final password = _passwordController.text.trim();
+                        await supabase.auth.signInWithPassword(
+                            password: password, email: email);
+                        setState(() {
+                          _loading = false;
+                        });
+                        if (mounted) {
+                          GoRouter.of(context).go('/home');
+                        }
+                      } on AuthException catch (error) {
+                        if (mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(error.message),
+                            backgroundColor:
+                                Theme.of(context).colorScheme.error,
+                          ));
+                        }
+                      } catch (error) {
+                        if (mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: const Text(
+                                'Error logging in, please try again!'),
+                            backgroundColor:
+                                Theme.of(context).colorScheme.error,
+                          ));
+                        }
+                      }
+                    },
+              child: _loading
+                  ? const CircularProgressIndicator()
+                  : const Text('Login')),
           const SizedBox(height: 12),
           // no tienes una cuenta? Registrate
           InkWell(

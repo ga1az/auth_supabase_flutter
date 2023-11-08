@@ -15,6 +15,7 @@ class HomeScreen extends StatelessWidget {
           padding: const EdgeInsets.all(50),
           children: [
             const Center(child: Text("Home Screen")),
+            Text(supabase.auth.currentUser!.email ?? "No email"),
             ElevatedButton(
               onPressed: () {
                 supabase.auth.signOut();

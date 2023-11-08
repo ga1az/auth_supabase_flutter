@@ -2,8 +2,4 @@
 
 ## Getting Started
 
-edit main_local.dart, url and anonKey
-
-```dart
-await Supabase.initialize(url: "", anonKey: "", authFlowType: AuthFlowType.pkce);
-```
+Edit the `.env` file with your Supabase URL and anon key, and then run the app. You can use the `.env.example` file as a template.
