@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_login/features/home/presentation/widgets/sidebar_widget.dart';
 import 'package:google_login/main_local.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -8,6 +9,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: const SidebarWidget(),
         appBar: AppBar(
           title: const Text('Home Screen'),
         ),
