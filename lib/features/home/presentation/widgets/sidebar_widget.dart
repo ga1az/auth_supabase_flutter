@@ -23,7 +23,7 @@ class SidebarWidget extends StatelessWidget {
         ),
         child: const Column(
           children: [
-            Text('BAZZA'),
+            Text('GESTOR'),
           ],
         ),
       );
@@ -40,7 +40,7 @@ class SidebarWidget extends StatelessWidget {
               leading: const Icon(Icons.dashboard_outlined),
               title: const Text('Dashboard'),
               onTap: () {},
-            )
+            ),
           ],
         ),
       );
