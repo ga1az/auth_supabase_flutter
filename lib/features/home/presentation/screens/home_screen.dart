@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_login/features/common/presentation/screens/base_screen_drawer.dart';
-import 'package:google_login/features/common/presentation/widgets/icon_button_text.widget.dart';
 import 'package:google_login/features/home/presentation/widgets/card_balance_widget.dart';
 import 'package:google_login/features/home/presentation/widgets/navbar_home_widget.dart';
+import 'package:google_login/features/home/presentation/widgets/options_home_widget.dart';
 
 class HomeScreen extends BaseScreenDrawer {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({Key? key, bool withAppbar = false})
+      : super(key: key, withAppBar: withAppbar);
 
   @override
   Widget body(BuildContext context) {
@@ -17,15 +18,12 @@ class HomeScreen extends BaseScreenDrawer {
           const SizedBox(height: 20),
           const CardBalance(),
           const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButtonText(
-                  text: 'Venta',
-                  icon: Icons.transfer_within_a_station_outlined,
-                  onPressed: () {})
-            ],
-          )
+          OptionsHomeWidget(),
+          const SizedBox(height: 40),
+          const Text(
+            'Vender de nuevo',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
         ],
       ),
     );
